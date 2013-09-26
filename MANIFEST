@@ -1,0 +1,12 @@
+Build.PL
+Changes
+etc/calc-operands.json
+lib/MooX/ConfigFromFile.pm
+lib/MooX/ConfigFromFile/Role.pm
+MANIFEST
+MANIFEST.SKIP
+README
+t/00-load.t
+t/01-parse.t
+META.yml
+META.json
