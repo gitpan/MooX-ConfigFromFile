@@ -41,11 +41,11 @@
    "provides" : {
       "MooX::ConfigFromFile" : {
          "file" : "lib/MooX/ConfigFromFile.pm",
-         "version" : "0.001"
+         "version" : "0.002"
       },
       "MooX::ConfigFromFile::Role" : {
          "file" : "lib/MooX/ConfigFromFile/Role.pm",
-         "version" : "0.001"
+         "version" : "0.002"
       }
    },
    "release_status" : "stable",
@@ -57,5 +57,5 @@
          "url" : "https://github.com/rehsack/MooX-ConfigFromFile"
       }
    },
-   "version" : "0.001"
+   "version" : "0.002"
 }

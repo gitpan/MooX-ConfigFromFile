@@ -20,10 +20,10 @@ name: MooX-ConfigFromFile
 provides:
   MooX::ConfigFromFile:
     file: lib/MooX/ConfigFromFile.pm
-    version: 0.001
+    version: 0.002
   MooX::ConfigFromFile::Role:
     file: lib/MooX/ConfigFromFile/Role.pm
-    version: 0.001
+    version: 0.002
 requires:
   Config::Any: 0
   File::Find::Rule: 0.30
@@ -33,4 +33,4 @@ requires:
 resources:
   license: http://dev.perl.org/licenses/
   repository: https://github.com/rehsack/MooX-ConfigFromFile
-version: 0.001
+version: 0.002

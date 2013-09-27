@@ -5,8 +5,9 @@ lib/MooX/ConfigFromFile.pm
 lib/MooX/ConfigFromFile/Role.pm
 MANIFEST
 MANIFEST.SKIP
+META.json
+META.yml
 README
 t/00-load.t
 t/01-parse.t
-META.yml
-META.json
+t/02-moose.t
