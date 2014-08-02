@@ -1,10 +1,9 @@
 package MooX::ConfigFromFile;
 
-use 5.008003;
 use strict;
 use warnings FATAL => 'all';
 
-our $VERSION = '0.002';
+our $VERSION = '0.003';
 
 sub import
 {
@@ -20,7 +19,7 @@ sub import
 
     my $apply_modifiers = sub {
         return if $target->can('_initialize_from_config');
-	my $with   = $target->can('with');
+        my $with = $target->can('with');
         $with->('MooX::ConfigFromFile::Role');
     };
     $apply_modifiers->();
@@ -91,7 +90,7 @@ MooX::ConfigFromFile - Moo eXtension for initializing objects from config file
 
 This module is intended to easy load initialization values for attributes
 on object construction from an appropriate config file. The building is
-done in L<MooX::ConfigFromFile::Rule> - using MooX::ConfigFromFile ensures
+done in L<MooX::ConfigFromFile::Role> - using MooX::ConfigFromFile ensures
 the role is applied.
 
 =head1 AUTHOR
@@ -140,7 +139,7 @@ L<http://search.cpan.org/dist/MooX-ConfigFromFile/>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2013 Jens Rehsack.
+Copyright 2013-2014 Jens Rehsack.
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of either: the GNU General Public License as published

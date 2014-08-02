@@ -1,13 +1,13 @@
-Build.PL
 Changes
 etc/calc-operands.json
 lib/MooX/ConfigFromFile.pm
 lib/MooX/ConfigFromFile/Role.pm
+Makefile.PL
 MANIFEST
 MANIFEST.SKIP
-META.json
-META.yml
-README
+README.md
 t/00-load.t
 t/01-parse.t
 t/02-moose.t
+META.yml                                 Module YAML meta-data (added by MakeMaker)
+META.json                                Module JSON meta-data (added by MakeMaker)

@@ -3,7 +3,7 @@ package MooX::ConfigFromFile::Role;
 use strict;
 use warnings;
 
-our $VERSION = '0.002';
+our $VERSION = '0.003';
 
 use Moo::Role;
 
@@ -24,7 +24,7 @@ around BUILDARGS => sub {
 
 sub _initialize_from_config
 {
-    my ($class, $params) = @_;
+    my ( $class, $params ) = @_;
     defined $params->{loaded_config} or $params->{loaded_config} = $class->_build_loaded_config($params);
 
     # This copies stuff from loaded_config into the object's parameters
@@ -45,36 +45,36 @@ has 'config_files' => ( is => 'lazy' );
 
 sub _build_config_files
 {
-    my ($class, $params) = @_;
+    my ( $class, $params ) = @_;
 
     defined $params->{config_prefix} or $params->{config_prefix} = $class->_build_config_prefix($params);
-    defined $params->{config_dirs} or $params->{config_dirs} = $class->_build_config_dirs($params);
+    defined $params->{config_dirs}   or $params->{config_dirs}   = $class->_build_config_dirs($params);
 
     ref $params->{config_dirs} eq "ARRAY" or $params->{config_dirs} = ["."];
     my @cfg_pattern = map { $params->{config_prefix} . "." . $_ } Config::Any->extensions();
-    my @cfg_files = File::Find::Rule->file()->name(@cfg_pattern)->maxdepth(1)->in(@{$params->{config_dirs}});
+    my @cfg_files = File::Find::Rule->file()->name(@cfg_pattern)->maxdepth(1)->in( @{ $params->{config_dirs} } );
 
     return \@cfg_files;
 }
 
 has 'loaded_config' => (
-                         is      => 'lazy',
-                         clearer => 1
-                       );
+    is      => 'lazy',
+    clearer => 1
+);
 
 sub _build_loaded_config
 {
-    my ($class, $params) = @_;
+    my ( $class, $params ) = @_;
 
     defined $params->{config_files} or $params->{config_files} = $class->_build_config_files($params);
-    return {} if !@{$params->{config_files}};
+    return {} if !@{ $params->{config_files} };
 
     my $config = Config::Any->load_files(
-                                          {
-                                            files   => $params->{config_files},
-                                            use_ext => 1
-                                          }
-                                        );
+        {
+            files   => $params->{config_files},
+            use_ext => 1
+        }
+    );
     my $config_merged = {};
     for my $c ( map { values %$_ } @$config )
     {
@@ -110,7 +110,7 @@ basename of the config file name to use.
 
 =head2 config_dirs
 
-This attribute is included from L<MooX::ConfigDir|MooX::ConfigDir/config_dirs>.
+This attribute is included from L<MooX::File::ConfigDir|MooX::File::ConfigDir/config_dirs>.
 It might be unclever to override - but possible. Use with caution.
 
 =head2 config_files
@@ -126,11 +126,11 @@ Jens Rehsack, C<< <rehsack at cpan.org> >>
 =head1 ACKNOWLEDGEMENTS
 
 Toby Inkster suggested to rely on BUILDARGS instead of intercepting object
-creation with nasty hacks. Also teached me a bit more how Moo(se) works.
+creation with nasty hacks. He also taught me a bit more how Moo(se) works.
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2013 Jens Rehsack.
+Copyright 2013-2014 Jens Rehsack.
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of either: the GNU General Public License as published

@@ -3,34 +3,31 @@ abstract: 'Moo eXtension for initializing objects from config file'
 author:
   - 'Jens Rehsack <rehsack@cpan.org>'
 build_requires:
-  Cwd: 0
-  File::Basename: 0
-  File::Spec: 0
-  JSON: 0
-  Test::More: 0
+  Cwd: '0'
+  File::Basename: '0'
+  File::Spec: '0'
+  JSON: '0'
+  Test::More: '0.9'
 configure_requires:
-  Module::Build: 0
+  ExtUtils::MakeMaker: '0'
 dynamic_config: 1
-generated_by: 'Module::Build version 0.4007, CPAN::Meta::Converter version 2.132620'
+generated_by: 'ExtUtils::MakeMaker version 6.98, CPAN::Meta::Converter version 2.141520'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
-  version: 1.4
+  version: '1.4'
 name: MooX-ConfigFromFile
-provides:
-  MooX::ConfigFromFile:
-    file: lib/MooX/ConfigFromFile.pm
-    version: 0.002
-  MooX::ConfigFromFile::Role:
-    file: lib/MooX/ConfigFromFile/Role.pm
-    version: 0.002
+no_index:
+  directory:
+    - t
+    - inc
 requires:
-  Config::Any: 0
-  File::Find::Rule: 0.30
-  FindBin: 0
-  Moo: 1.003
-  MooX::File::ConfigDir: 0.002
+  Config::Any: '0'
+  File::Find::Rule: '0.30'
+  FindBin: '0'
+  Moo: '1.003'
+  MooX::File::ConfigDir: '0.002'
+  perl: v5.8.1
 resources:
   license: http://dev.perl.org/licenses/
-  repository: https://github.com/rehsack/MooX-ConfigFromFile
-version: 0.002
+version: '0.003'
