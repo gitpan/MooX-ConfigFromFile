@@ -3,7 +3,7 @@ package MooX::ConfigFromFile::Role;
 use strict;
 use warnings;
 
-our $VERSION = '0.003';
+our $VERSION = '0.004';
 
 use Moo::Role;
 
@@ -41,17 +41,22 @@ has 'config_prefix' => ( is => 'lazy' );
 
 sub _build_config_prefix { $Script; }
 
+has 'config_extensions' => ( is => 'lazy' );
+
+sub _build_config_extensions { [ Config::Any->extensions() ] }
+
 has 'config_files' => ( is => 'lazy' );
 
 sub _build_config_files
 {
     my ( $class, $params ) = @_;
 
-    defined $params->{config_prefix} or $params->{config_prefix} = $class->_build_config_prefix($params);
-    defined $params->{config_dirs}   or $params->{config_dirs}   = $class->_build_config_dirs($params);
+    defined $params->{config_prefix}     or $params->{config_prefix}     = $class->_build_config_prefix($params);
+    defined $params->{config_dirs}       or $params->{config_dirs}       = $class->_build_config_dirs($params);
+    defined $params->{config_extensions} or $params->{config_extensions} = $class->_build_config_extensions($params);
 
     ref $params->{config_dirs} eq "ARRAY" or $params->{config_dirs} = ["."];
-    my @cfg_pattern = map { $params->{config_prefix} . "." . $_ } Config::Any->extensions();
+    my @cfg_pattern = map { $params->{config_prefix} . "." . $_ } @{ $params->{config_extensions} };
     my @cfg_files = File::Find::Rule->file()->name(@cfg_pattern)->maxdepth(1)->in( @{ $params->{config_dirs} } );
 
     return \@cfg_files;
@@ -103,6 +108,13 @@ already in C<$params>.
 This role uses following attributes which might be suitable customized by
 overloading the appropriate builder or pass defaults in construction arguments.
 
+Be sure to read L<MooX::File::ConfigDir/ATTRIBUTES>, especially
+L<MooX::File::ConfigDir/config_identifier> to understand how the L</config_dirs>
+are build.
+
+When you miss a directory - see L<File::ConfigDir/plug_dir_source> and
+L<File::ConfigDir::Plack>.
+
 =head2 config_prefix
 
 This attribute defaults to L<FindBin>'s C<$Script>. It's interpreted as the
@@ -110,14 +122,17 @@ basename of the config file name to use.
 
 =head2 config_dirs
 
-This attribute is included from L<MooX::File::ConfigDir|MooX::File::ConfigDir/config_dirs>.
-It might be unclever to override - but possible. Use with caution.
+This attribute is consumed from L<MooX::File::ConfigDir|MooX::File::ConfigDir/config_dirs>.
+It might not be smart to override - but possible. Use with caution.
+
+=head2 config_extensions
+
+This attribute defaults to list of extensions from L<Config::Any|Config::Any/extensions>.
 
 =head2 config_files
 
 This attribute contains the list of existing files in I<config_dirs> matching
-I<config_prefix> . L<Config::Any-E<gt>extensions|Config::Any/extensions>.
-Search is operated by L<File::Find::Rule>.
+I<config_prefix> . I<config_extensions>.  Search is operated by L<File::Find::Rule>.
 
 =head1 AUTHOR
 
