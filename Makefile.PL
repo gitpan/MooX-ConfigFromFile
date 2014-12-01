@@ -12,19 +12,19 @@ my %RUN_DEPS = (
     "Moo"                   => "1.003",
     "MooX::File::ConfigDir" => "0.002",
 );
+
 my %CONFIGURE_DEPS = (
     'ExtUtils::MakeMaker' => 0,
 );
-my %BUILD_DEPS = (
+
+my %BUILD_DEPS = ();
+
+my %TEST_DEPS = (
     'Cwd'            => 0,
     'File::Basename' => 0,
     'File::Spec'     => 0,
     'JSON'           => 0,
-    'Test::More'     => 0,
-);
-
-my %TEST_DEPS = (
-    'Test::More' => 0.90,
+    'Test::More'     => 0.90,
 );
 
 WriteMakefile1(
@@ -32,17 +32,29 @@ WriteMakefile1(
     META_ADD         => {
         'meta-spec' => { version => 2 },
         resources   => {
-            repository => 'https://github.com/rehsack/MooX-ConfigFromFile',
-            license    => 'http://dev.perl.org/licenses/',
+            homepage   => 'https://metacpan.org/release/MooX-ConfigFromFile',
+            repository => {
+                url  => 'git@github.com:rehsack/MooX-ConfigFromFile.git',
+                web  => 'https://github.com/rehsack/MooX-ConfigFromFile',
+                type => 'git',
+            },
+            bugtracker => {
+                web    => 'http://rt.cpan.org/Public/Dist/Display.html?Name=MooX-ConfigFromFile',
+                mailto => 'moox-configfromfile@rt.cpan.org',
+            },
+            license => 'http://dev.perl.org/licenses/',
         },
         prereqs => {
             develop => {
                 requires => {
                     'Test::CPAN::Changes'                 => 0,
                     'Test::CheckManifest'                 => 0,
+                    'Module::CPANTS::Analyse'             => '0.96',
+                    'Test::Kwalitee'                      => 0,
                     'Test::Pod'                           => 0,
                     'Test::Pod::Coverage'                 => 0,
                     'Test::Pod::Spelling::CommonMistakes' => 0,
+                    'Test::Spelling'                      => 0,
                 },
             },
             configure => {
@@ -58,15 +70,16 @@ WriteMakefile1(
             },
         },
     },
-    NAME           => 'MooX::ConfigFromFile',
-    VERSION_FROM   => 'lib/MooX/ConfigFromFile.pm',
-    ABSTRACT_FROM  => 'lib/MooX/ConfigFromFile.pm',
-    LICENSE        => 'perl',
-    AUTHOR         => q{Jens Rehsack <rehsack@cpan.org>},
-    PREREQ_PM      => \%RUN_DEPS,
-    BUILD_REQUIRES => \%BUILD_DEPS,
-    TEST_REQUIRES  => \%TEST_DEPS,
-    test           => { TESTS => 't/*.t xt/*.t' },
+    NAME               => 'MooX::ConfigFromFile',
+    VERSION_FROM       => 'lib/MooX/ConfigFromFile.pm',
+    ABSTRACT_FROM      => 'lib/MooX/ConfigFromFile.pm',
+    LICENSE            => 'perl',
+    AUTHOR             => q{Jens Rehsack <rehsack@cpan.org>},
+    PREREQ_PM          => \%RUN_DEPS,
+    CONFIGURE_REQUIRES => \%CONFIGURE_DEPS,
+    BUILD_REQUIRES     => \%BUILD_DEPS,
+    TEST_REQUIRES      => \%TEST_DEPS,
+    test               => { TESTS => 't/*.t xt/*.t' },
 );
 
 sub WriteMakefile1
@@ -76,23 +89,14 @@ sub WriteMakefile1
     $eumm_version = eval $eumm_version;
     die "EXTRA_META is deprecated" if ( exists( $params{EXTRA_META} ) );
     die "License not specified"    if ( !exists( $params{LICENSE} ) );
-    if ( $params{TEST_REQUIRES} and ( $eumm_version < 6.6303 ) )
-    {
-        if ( $params{BUILD_REQUIRES} )
-        {
-            $params{BUILD_REQUIRES} = { %{ $params{BUILD_REQUIRES} }, %{ $params{TEST_REQUIRES} } };
-        }
-        else
-        {
-            $params{BUILD_REQUIRES} = delete $params{TEST_REQUIRES};
-        }
-    }
-    if ( $params{BUILD_REQUIRES} and ( $eumm_version < 6.5503 ) )
-    {
-        #EUMM 6.5502 has problems with BUILD_REQUIRES
-        $params{PREREQ_PM} = { %{ $params{PREREQ_PM} || {} }, %{ $params{BUILD_REQUIRES} } };
-        delete $params{BUILD_REQUIRES};
-    }
+    $params{TEST_REQUIRES}
+      and $eumm_version < 6.6303
+      and $params{BUILD_REQUIRES} =
+      $params{BUILD_REQUIRES} ? { %{ $params{BUILD_REQUIRES} }, %{ $params{TEST_REQUIRES} } } : delete $params{TEST_REQUIRES};
+    #EUMM 6.5502 has problems with BUILD_REQUIRES
+    $params{BUILD_REQUIRES}
+      and $eumm_version < 6.5503
+      and $params{PREREQ_PM} = { %{ $params{PREREQ_PM} || {} }, %{ delete $params{BUILD_REQUIRES} } };
     delete $params{CONFIGURE_REQUIRES}    if ( $eumm_version < 6.52 );
     delete $params{MIN_PERL_VERSION}      if ( $eumm_version < 6.48 );
     delete $params{META_MERGE}            if ( $eumm_version < 6.46 );

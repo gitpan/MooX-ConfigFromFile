@@ -4,7 +4,7 @@
       "Jens Rehsack <rehsack@cpan.org>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "ExtUtils::MakeMaker version 6.98, CPAN::Meta::Converter version 2.142060",
+   "generated_by" : "ExtUtils::MakeMaker version 7.02, CPAN::Meta::Converter version 2.143240",
    "license" : [
       "perl_5"
    ],
@@ -21,13 +21,7 @@
    },
    "prereqs" : {
       "build" : {
-         "requires" : {
-            "Cwd" : "0",
-            "File::Basename" : "0",
-            "File::Spec" : "0",
-            "JSON" : "0",
-            "Test::More" : "0"
-         }
+         "requires" : {}
       },
       "configure" : {
          "requires" : {
@@ -36,11 +30,14 @@
       },
       "develop" : {
          "requires" : {
+            "Module::CPANTS::Analyse" : "0.96",
             "Test::CPAN::Changes" : "0",
             "Test::CheckManifest" : "0",
+            "Test::Kwalitee" : "0",
             "Test::Pod" : "0",
             "Test::Pod::Coverage" : "0",
-            "Test::Pod::Spelling::CommonMistakes" : "0"
+            "Test::Pod::Spelling::CommonMistakes" : "0",
+            "Test::Spelling" : "0"
          }
       },
       "runtime" : {
@@ -55,15 +52,28 @@
       },
       "test" : {
          "requires" : {
+            "Cwd" : "0",
+            "File::Basename" : "0",
+            "File::Spec" : "0",
+            "JSON" : "0",
             "Test::More" : "0.9"
          }
       }
    },
    "release_status" : "stable",
    "resources" : {
+      "bugtracker" : {
+         "mailto" : "moox-configfromfile@rt.cpan.org",
+         "web" : "http://rt.cpan.org/Public/Dist/Display.html?Name=MooX-ConfigFromFile"
+      },
+      "homepage" : "https://metacpan.org/release/MooX-ConfigFromFile",
       "license" : [
          "http://dev.perl.org/licenses/"
-      ]
+      ],
+      "repository" : {
+         "type" : "git",
+         "web" : "https://github.com/rehsack/MooX-ConfigFromFile"
+      }
    },
-   "version" : "0.004"
+   "version" : "0.005"
 }

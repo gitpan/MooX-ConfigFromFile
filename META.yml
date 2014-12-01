@@ -11,7 +11,7 @@ build_requires:
 configure_requires:
   ExtUtils::MakeMaker: '0'
 dynamic_config: 1
-generated_by: 'ExtUtils::MakeMaker version 6.98, CPAN::Meta::Converter version 2.142060'
+generated_by: 'ExtUtils::MakeMaker version 7.02, CPAN::Meta::Converter version 2.143240'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -29,5 +29,8 @@ requires:
   MooX::File::ConfigDir: '0.002'
   perl: v5.8.1
 resources:
+  bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=MooX-ConfigFromFile
+  homepage: https://metacpan.org/release/MooX-ConfigFromFile
   license: http://dev.perl.org/licenses/
-version: '0.004'
+  repository: https://github.com/rehsack/MooX-ConfigFromFile
+version: '0.005'
